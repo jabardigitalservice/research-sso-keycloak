@@ -21,21 +21,13 @@
 </template>
 
 <script>
-import Keycloak from 'keycloak-js'
-
-const initOptions = {
-  url: 'https://keycloak.digitalservice.id/auth', realm: 'jabarprov', clientId: 'tes-masif-web'
-}
-
-const keycloak = Keycloak(initOptions)
-
 export default {
   layout: 'auth',
+  middleware: 'guest',
 
   methods: {
     login () {
-      keycloak.init(initOptions)
-      keycloak.login({ redirectUri: 'http://localhost:3000' })
+      this.$keycloak.login({ redirectUri: process.env.keycloakRedirectUri })
     }
   }
 }

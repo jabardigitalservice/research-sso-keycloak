@@ -1,6 +1,6 @@
-export default ({ app, store, redirect }) => {
+export default ({ app, redirect }) => {
   if (app.$keycloak.authenticated) {
-    return true
+    return redirect('/')
   }
 
   return new Promise((resolve, reject) => {
@@ -10,12 +10,10 @@ export default ({ app, store, redirect }) => {
     })
       .then((auth) => {
         if (auth) {
-          store.commit('auth/UPDATE_USER', { user: { name: 'Yoga' } })
-
-          return resolve()
+          return redirect('/')
         }
 
-        redirect('/login')
+        resolve()
       })
       .catch(reject)
   })

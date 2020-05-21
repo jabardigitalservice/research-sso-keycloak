@@ -15,21 +15,12 @@
 </template>
 
 <script>
-import Keycloak from 'keycloak-js'
-
-const initOptions = {
-  url: 'https://keycloak.digitalservice.id/auth', realm: 'jabarprov', clientId: 'tes-masif-web'
-}
-
-const keycloak = Keycloak(initOptions)
-
 export default {
   middleware: 'auth',
 
   methods: {
     logout () {
-      keycloak.init(initOptions)
-      keycloak.logout()
+      this.$keycloak.logout()
     }
   }
 }
