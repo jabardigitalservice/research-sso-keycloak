@@ -9,13 +9,31 @@ export default ({ app, store, redirect }) => {
       checkLoginIframe: true
     })
       .then((auth) => {
-        if (auth) {
-          store.commit('auth/UPDATE_USER', { user: { name: 'Yoga' } })
+        if (!auth) {
+          store.dispatch('auth/clearToken')
 
-          return resolve()
+          return redirect('/login')
         }
 
-        redirect('/login')
+        setInterval(() => {
+          app.$keycloak.updateToken(70).then((refreshed) => {
+            if (refreshed) {
+              // console.log('Token refreshed ' + refreshed)
+            } else {
+              // console.log('Token not refreshed, valid for ' + Math.round(app.$keycloak.tokenParsed.exp + app.$keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds')
+            }
+          }).catch(() => {
+            // console.log('Failed to refresh token')
+          })
+        }, 60000)
+
+        store.dispatch('auth/saveToken', {
+          token: app.$keycloak.token
+        })
+
+        store.dispatch('auth/updateUserSSO')
+
+        return resolve()
       })
       .catch(reject)
   })

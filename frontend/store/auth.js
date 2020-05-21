@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie'
+
 // state
 export const state = () => ({
   user: null,
@@ -13,12 +15,47 @@ export const getters = {
 
 // mutations
 export const mutations = {
-  UPDATE_USER (state, { user }) {
-    state.user = user
+  SET_TOKEN (state, token) {
+    state.token = token
+  },
+
+  UPDATE_USER (state, payload) {
+    state.user = payload
+  },
+
+  LOGOUT (state) {
+    state.user = null
+    state.token = null
   }
 }
 
 // actions
 export const actions = {
-  //
+  updateUser ({ commit }, payload) {
+    commit('UPDATE_USER', payload)
+  },
+
+  async updateUserSSO ({ commit }) {
+    const userProfile = await this.$keycloak.loadUserProfile()
+
+    commit('UPDATE_USER', userProfile)
+  },
+
+  saveToken ({ commit, dispatch }, { token }) {
+    commit('SET_TOKEN', token)
+
+    Cookies.set('token', token)
+  },
+
+  clearToken ({ commit }) {
+    Cookies.remove('token')
+  },
+
+  async logout ({ commit }) {
+    await this.$keycloak.logout()
+
+    Cookies.remove('token')
+
+    commit('LOGOUT')
+  }
 }

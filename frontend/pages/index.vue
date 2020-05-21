@@ -20,7 +20,7 @@ export default {
 
   methods: {
     logout () {
-      this.$keycloak.logout()
+      this.$store.dispatch('auth/logout')
     }
   }
 }
