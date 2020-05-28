@@ -8,7 +8,7 @@ export default ({ app, store, redirect }) => {
       onLoad: 'check-sso',
       checkLoginIframe: true
     })
-      .then((auth) => {
+      .then(async (auth) => {
         if (!auth) {
           store.dispatch('auth/clearToken')
 
@@ -33,7 +33,10 @@ export default ({ app, store, redirect }) => {
           })
         }, 60000)
 
-        store.dispatch('auth/updateUserSSO')
+        const userProfile = await app.$keycloak.loadUserProfile()
+        // const userResourceAccess = app.$keycloak.resourceAccess
+
+        store.dispatch('auth/updateUserSSO', { profile: userProfile })
 
         store.dispatch('auth/saveToken', {
           token: app.$keycloak.token

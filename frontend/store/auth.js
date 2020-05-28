@@ -35,8 +35,9 @@ export const actions = {
     commit('UPDATE_USER', payload)
   },
 
-  async updateUserSSO ({ commit }) {
-    const userProfile = await this.$keycloak.loadUserProfile()
+  updateUserSSO ({ commit }, { profile, permissions }) {
+    const userProfile = profile
+    // const userPermission = permissions
 
     commit('UPDATE_USER', userProfile)
   },
