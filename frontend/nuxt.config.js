@@ -3,6 +3,7 @@ export default {
   mode: 'spa',
 
   env: {
+    apiUrl: process.env.API_URL,
     keycloakUrl: process.env.KEYCLOAK_URL,
     keycloakRealm: process.env.KEYCLOAK_REALM,
     keycloakClientId: process.env.KEYCLOAK_CLIENT_ID,
@@ -36,7 +37,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/keycloak.js'
+    '~/plugins/axios',
+    '~/plugins/keycloak'
   ],
   /*
   ** Nuxt.js dev-modules

@@ -19,6 +19,12 @@ export default ({ app, store, redirect }) => {
           app.$keycloak.updateToken(70).then((refreshed) => {
             if (refreshed) {
               // console.log('Token refreshed ' + refreshed)
+
+              store.dispatch('auth/saveToken', {
+                token: app.$keycloak.token
+              })
+
+              app.$axios.setToken(app.$keycloak.token, 'Bearer')
             } else {
               // console.log('Token not refreshed, valid for ' + Math.round(app.$keycloak.tokenParsed.exp + app.$keycloak.timeSkew - new Date().getTime() / 1000) + ' seconds')
             }
@@ -27,11 +33,13 @@ export default ({ app, store, redirect }) => {
           })
         }, 60000)
 
+        store.dispatch('auth/updateUserSSO')
+
         store.dispatch('auth/saveToken', {
           token: app.$keycloak.token
         })
 
-        store.dispatch('auth/updateUserSSO')
+        app.$axios.setToken(app.$keycloak.token, 'Bearer')
 
         return resolve()
       })
