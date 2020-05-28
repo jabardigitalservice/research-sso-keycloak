@@ -1,6 +1,9 @@
 
 export default {
   mode: 'spa',
+  router: {
+    mode: 'hash'
+  },
 
   env: {
     apiUrl: process.env.API_URL,

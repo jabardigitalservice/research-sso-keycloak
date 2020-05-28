@@ -6,7 +6,8 @@ export default ({ app, store, redirect }) => {
   return new Promise((resolve, reject) => {
     app.$keycloak.init({
       onLoad: 'check-sso',
-      checkLoginIframe: true
+      checkLoginIframe: true,
+      responseMode: 'query'
     })
       .then(async (auth) => {
         if (!auth) {
@@ -16,7 +17,7 @@ export default ({ app, store, redirect }) => {
         }
 
         setInterval(() => {
-          app.$keycloak.updateToken(70).then((refreshed) => {
+          app.$keycloak.updateToken(5).then((refreshed) => {
             if (refreshed) {
               // console.log('Token refreshed ' + refreshed)
 
