@@ -3,7 +3,8 @@ import Cookies from 'js-cookie'
 // state
 export const state = () => ({
   user: null,
-  token: null
+  token: null,
+  permissions: null
 })
 
 // getters
@@ -19,8 +20,9 @@ export const mutations = {
     state.token = token
   },
 
-  UPDATE_USER (state, payload) {
-    state.user = payload
+  UPDATE_USER (state, { profile, permissions }) {
+    state.user = profile
+    state.permissions = permissions
   },
 
   LOGOUT (state) {
@@ -36,10 +38,7 @@ export const actions = {
   },
 
   updateUserSSO ({ commit }, { profile, permissions }) {
-    const userProfile = profile
-    // const userPermission = permissions
-
-    commit('UPDATE_USER', userProfile)
+    commit('UPDATE_USER', { profile, permissions })
   },
 
   saveToken ({ commit, dispatch }, { token }) {
