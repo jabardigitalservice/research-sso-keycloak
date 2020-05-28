@@ -19,5 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:api')->get('/protected', function (Request $request) {
-    return ['status' => 'Protected Response'];
+    return ['status' => 'This is protected response from API'];
 });
