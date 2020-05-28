@@ -6,6 +6,7 @@ export default {
   },
 
   env: {
+    appName: process.env.APP_NAME || 'Application',
     apiUrl: process.env.API_URL,
     keycloakUrl: process.env.KEYCLOAK_URL,
     keycloakRealm: process.env.KEYCLOAK_REALM,

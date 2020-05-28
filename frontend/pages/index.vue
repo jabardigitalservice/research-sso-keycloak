@@ -2,7 +2,7 @@
   <div class="container">
     <div>
       <h1 class="title text-4xl">
-        Dashboard
+        Dashboard {{ appName }}
       </h1>
 
       <div v-if="user" class="mt-4">
@@ -23,6 +23,12 @@ import { mapGetters } from 'vuex'
 
 export default {
   middleware: 'auth',
+
+  data () {
+    return {
+      appName: process.env.appName
+    }
+  },
 
   computed: {
     ...mapGetters({
